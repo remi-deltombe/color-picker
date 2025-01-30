@@ -62,14 +62,17 @@ export class ColorPickerRenderer {
         }
         */
         if (this.mousePosition) {
-            this.renderColorPicker();
+            this.renderLens();
         }
         else {
             this.hoveredColor = null;
         }
     }
 
-    private renderColorPicker() {
+    /**
+     * Render the lense of the color picker
+     */
+    private renderLens() {
         if (!this.renderable) return;
         if (!this.mousePosition) return;
 
@@ -116,7 +119,7 @@ export class ColorPickerRenderer {
         this.context.lineWidth = 8;
         this.context.stroke();
 
-        // color text
+        // text
         this.context.fillStyle = '#525659';
         this.context.fillRect(x - 27, y - 11 + 30, 52, 15);
         this.context.textAlign = "center";
