@@ -9,7 +9,7 @@ async function main() {
     }
 
     const image = await loadImage('http://localhost:5173/assets/image.jpg');
-    const colorPicker = new ColorPicker(canvas);
+    const colorPicker = new ColorPicker({ canvas });
     const color = await colorPicker.open(image);
     console.log({ color })
 }
