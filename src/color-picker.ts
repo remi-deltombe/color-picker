@@ -1,4 +1,4 @@
-import { ColorPickerOptions, ColorPickerRenderable, Size } from "./type";
+import { ColorPickerOptions, ColorPickerRenderable, Point, Size } from "./type";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
@@ -11,6 +11,7 @@ export class ColorPicker {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private renderable?: ColorPickerRenderable;
+    private mousePosition?: Point;
 
     /**
      * Color Picker constructor
@@ -23,6 +24,19 @@ export class ColorPicker {
         // getContext may fail if context is not provided
         if (!this.context) {
             throw "Unable to retrieve canvas context";
+        }
+
+        this.canvas.onmousemove = e => {
+            this.mousePosition = {
+                x: e.offsetX,
+                y: e.offsetY
+            }
+            this.render();
+        }
+
+        this.canvas.onmouseleave = e => {
+            this.mousePosition = undefined
+            this.render();
         }
     }
 
@@ -58,26 +72,32 @@ export class ColorPicker {
         this.context.drawImage(this.renderable, 0, 0);
 
         ////////////////////// Picker
-        // render picker
-        const x = ~~(width / 2);
-        const y = ~~(height / 2);
-        const radius = 80;
-        const zoomFactor = 2;
+        if (this.mousePosition) {
+            // render picker
+            const { x, y } = this.mousePosition;
+            const radius = 80;
+            const zoomFactor = 2;
 
-        // mask
-        this.context.arc(x, y, radius, 0, TAU);
-        this.context.clip();
-        this.context.scale(zoomFactor, zoomFactor);
-        this.context.drawImage(this.renderable, -x / zoomFactor, -y / zoomFactor);
+            // mask
+            this.context.arc(x, y, radius, 0, TAU);
+            this.context.clip();
+            this.context.scale(zoomFactor, zoomFactor);
+            this.context.drawImage(this.renderable, -x / zoomFactor, -y / zoomFactor);
+        }
 
     }
 
-
-
+    /**
+     * Show color picker canvas 
+     */
     private show() {
         this.canvas.style.display = 'block';
 
     }
+
+    /**
+     * Hide color picker canvas 
+     */
     private hide() {
         this.canvas.style.display = 'none';
 
