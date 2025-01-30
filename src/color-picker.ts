@@ -80,8 +80,8 @@ export class ColorPicker {
         ////////////////////// Picker
         if (!this.mousePosition) {
             this.mousePosition = {
-                x: 200,
-                y: 200
+                x: 300,
+                y: 354
             }
         }
         if (this.mousePosition) {
@@ -89,9 +89,8 @@ export class ColorPicker {
             const { x, y } = this.mousePosition;
             const [r, g, b] = this.context.getImageData(x, y, 1, 1).data;
             const color = rgbToHex(r, g, b);
-            console.log(color)
             const radius = 80;
-            const zoomFactor = 10;
+            const zoomFactor = 12
 
             // mask
             this.context.arc(x, y, radius, 0, TAU);
@@ -102,12 +101,24 @@ export class ColorPicker {
             this.context.setTransform(zoomFactor, 0, 0, zoomFactor, 0, 0);
             this.context.drawImage(
                 this.renderable,
-                -x + x / zoomFactor,
-                -y + y / zoomFactor
+                // cursor position - scaled  canvas dimension- pixel shift for the color picker
+                -x + x / zoomFactor - 0.5,
+                -y + y / zoomFactor - 0.5
             );
             this.context.restore();
 
+            // grid
+            this.context.fillStyle = 'rgba(0,0,0,0.3)';
+            const pixelAlignment = 7 + zoomFactor / 2; // << Need to compute this properly, constant for zoomFactor???
+            for (let dy = -radius + pixelAlignment; dy < radius; dy += zoomFactor) {
+                this.context.fillRect(x - radius, y + dy, radius * 2, 1);
+            }
+            for (let dx = -radius + pixelAlignment; dx < radius; dx += zoomFactor) {
+                this.context.fillRect(x + dx, y - radius, 1, radius * 2);
+            }
+
             // border
+
             this.context.arc(x, y, radius, 0, TAU);
             this.context.strokeStyle = color;
             this.context.lineWidth = 30;
@@ -125,9 +136,7 @@ export class ColorPicker {
             this.context.font = "11px sans-serif";
             this.context.fillStyle = 'white';
             this.context.fillText(color, x, y + 30);
-
         }
-
     }
 
     /**
@@ -135,7 +144,6 @@ export class ColorPicker {
      */
     private show() {
         this.canvas.style.display = 'block';
-
     }
 
     /**
