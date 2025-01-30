@@ -1,4 +1,5 @@
 import { ColorPickerOptions, ColorPickerRenderable, Point, Size } from "./type";
+import { rgbToHex } from "./utils";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
@@ -72,17 +73,50 @@ export class ColorPicker {
         this.context.drawImage(this.renderable, 0, 0);
 
         ////////////////////// Picker
+        if (!this.mousePosition) {
+            this.mousePosition = {
+                x: 200,
+                y: 200
+            }
+        }
         if (this.mousePosition) {
             // render picker
             const { x, y } = this.mousePosition;
+            const [r, g, b] = this.context.getImageData(x, y, 1, 1).data;
+            const color = rgbToHex(r, g, b);
+            console.log(color)
             const radius = 80;
             const zoomFactor = 2;
 
             // mask
             this.context.arc(x, y, radius, 0, TAU);
             this.context.clip();
+
+            // background
+            this.context.save();
             this.context.scale(zoomFactor, zoomFactor);
             this.context.drawImage(this.renderable, -x / zoomFactor, -y / zoomFactor);
+            this.context.restore();
+
+            // border
+            this.context.arc(x, y, radius, 0, TAU);
+            this.context.strokeStyle = color;
+            this.context.lineWidth = 30;
+            this.context.stroke();
+
+            this.context.arc(x, y, radius, 0, TAU);
+            this.context.strokeStyle = 'white';
+            this.context.lineWidth = 15;
+            this.context.stroke();
+
+            // color text
+            this.context.fillStyle = '#525659';
+            this.context.fillRect(x - 27, y - 11 + 30, 52, 15);
+            this.context.textAlign = "center";
+            this.context.font = "11px sans-serif";
+            this.context.fillStyle = 'white';
+            this.context.fillText(color, x, y + 30);
+
         }
 
     }
