@@ -1,5 +1,5 @@
 import { ColorPickerOptions, ColorPickerRenderable, Point, Size } from "./type";
-import { rgbToHex } from "./utils";
+import { map, rgbToHex } from "./utils";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
@@ -68,6 +68,11 @@ export class ColorPicker {
         this.canvas.width = width;
         this.canvas.height = height;
 
+        // prevent blur while zooming image
+        this.context.webkitImageSmoothingEnabled = false;
+        this.context.mozImageSmoothingEnabled = false;
+        this.context.imageSmoothingEnabled = false;
+
         ////////////////////// Renderable
         // render renderable
         this.context.drawImage(this.renderable, 0, 0);
@@ -86,7 +91,7 @@ export class ColorPicker {
             const color = rgbToHex(r, g, b);
             console.log(color)
             const radius = 80;
-            const zoomFactor = 2;
+            const zoomFactor = 10;
 
             // mask
             this.context.arc(x, y, radius, 0, TAU);
@@ -94,8 +99,12 @@ export class ColorPicker {
 
             // background
             this.context.save();
-            this.context.scale(zoomFactor, zoomFactor);
-            this.context.drawImage(this.renderable, -x / zoomFactor, -y / zoomFactor);
+            this.context.setTransform(zoomFactor, 0, 0, zoomFactor, 0, 0);
+            this.context.drawImage(
+                this.renderable,
+                -x + x / zoomFactor,
+                -y + y / zoomFactor
+            );
             this.context.restore();
 
             // border
