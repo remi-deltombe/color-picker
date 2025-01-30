@@ -13,6 +13,8 @@ export class ColorPicker {
     private context: CanvasRenderingContext2D;
     private renderable?: ColorPickerRenderable;
     private mousePosition?: Point;
+    private resolveClick?: Function;
+    private hoveredColor: string = '';
 
     /**
      * Color Picker constructor
@@ -39,6 +41,13 @@ export class ColorPicker {
             this.mousePosition = undefined
             this.render();
         }
+
+        this.canvas.onclick = e => {
+            if (this.resolveClick) {
+                this.resolveClick(this.hoveredColor);
+                this.hide();
+            }
+        }
     }
 
 
@@ -48,10 +57,15 @@ export class ColorPicker {
      * @return Picked color
      */
     public async open(renderable: ColorPickerRenderable): Promise<string> {
+        if (this.resolveClick) {
+            throw "Color picker is already opened";
+        }
         this.renderable = renderable;
         this.show();
         this.render();
-        return '';
+        return new Promise(resolve => {
+            this.resolveClick = resolve;
+        });
     }
 
 
@@ -78,17 +92,19 @@ export class ColorPicker {
         this.context.drawImage(this.renderable, 0, 0);
 
         ////////////////////// Picker
+        /* uncomment to debug rendering easily without having to mouseover
         if (!this.mousePosition) {
             this.mousePosition = {
                 x: 300,
                 y: 354
             }
         }
+        */
         if (this.mousePosition) {
             // render picker
             const { x, y } = this.mousePosition;
             const [r, g, b] = this.context.getImageData(x, y, 1, 1).data;
-            const color = rgbToHex(r, g, b);
+            this.hoveredColor = rgbToHex(r, g, b);
             const radius = 80;
             const zoomFactor = 12
 
@@ -118,15 +134,14 @@ export class ColorPicker {
             }
 
             // border
-
             this.context.arc(x, y, radius, 0, TAU);
-            this.context.strokeStyle = color;
-            this.context.lineWidth = 30;
+            this.context.strokeStyle = this.hoveredColor;
+            this.context.lineWidth = 25;
             this.context.stroke();
 
             this.context.arc(x, y, radius, 0, TAU);
             this.context.strokeStyle = 'white';
-            this.context.lineWidth = 15;
+            this.context.lineWidth = 8;
             this.context.stroke();
 
             // color text
@@ -135,7 +150,7 @@ export class ColorPicker {
             this.context.textAlign = "center";
             this.context.font = "11px sans-serif";
             this.context.fillStyle = 'white';
-            this.context.fillText(color, x, y + 30);
+            this.context.fillText(this.hoveredColor, x, y + 30);
         }
     }
 
@@ -151,7 +166,6 @@ export class ColorPicker {
      */
     private hide() {
         this.canvas.style.display = 'none';
-
     }
 
 }
