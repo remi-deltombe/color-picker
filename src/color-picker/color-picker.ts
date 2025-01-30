@@ -1,5 +1,5 @@
 import { ColorPickerInteractions } from "./interactions";
-import { ColorPickerRenderer } from "./color-picker-renderer";
+import { ColorPickerRenderer } from "./renderer";
 import { ColorPickerOptions, ColorPickerRenderable } from "./types";
 
 // Usefull rendering constants
