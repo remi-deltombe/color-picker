@@ -29,6 +29,7 @@ export class ColorPicker {
             throw "Unable to retrieve canvas context";
         }
 
+        // dom events
         this.canvas.onmousemove = e => {
             this.mousePosition = {
                 x: e.offsetX,
@@ -43,10 +44,7 @@ export class ColorPicker {
         }
 
         this.canvas.onclick = e => {
-            if (this.resolveClick) {
-                this.resolveClick(this.hoveredColor);
-                this.hide();
-            }
+            this.resolvePromise()
         }
     }
 
@@ -56,10 +54,8 @@ export class ColorPicker {
      * @param renderable Reference material from which the color must be picked
      * @return Picked color
      */
-    public async open(renderable: ColorPickerRenderable): Promise<string> {
-        if (this.resolveClick) {
-            throw "Color picker is already opened";
-        }
+    public async open(renderable: ColorPickerRenderable): Promise<string | null> {
+        this.resolvePromise(null)
         this.renderable = renderable;
         this.show();
         this.render();
@@ -83,8 +79,6 @@ export class ColorPicker {
         this.canvas.height = height;
 
         // prevent blur while zooming image
-        this.context.webkitImageSmoothingEnabled = false;
-        this.context.mozImageSmoothingEnabled = false;
         this.context.imageSmoothingEnabled = false;
 
         ////////////////////// Renderable
@@ -166,6 +160,17 @@ export class ColorPicker {
      */
     private hide() {
         this.canvas.style.display = 'none';
+    }
+
+    /**
+     * Resolve created promise from open function if needed 
+     */
+    private resolvePromise(resolveWith: string | null = this.hoveredColor) {
+        console.log(resolveWith)
+        if (this.resolveClick) {
+            this.resolveClick(resolveWith);
+            this.hide();
+        }
     }
 
 }
