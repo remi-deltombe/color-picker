@@ -1,6 +1,6 @@
-import { ColorPickerInteractions } from "./color-picker-interactions";
+import { ColorPickerInteractions } from "./interactions";
 import { ColorPickerRenderer } from "./color-picker-renderer";
-import { ColorPickerOptions, ColorPickerRenderable } from "./color-picker-types";
+import { ColorPickerOptions, ColorPickerRenderable } from "./types";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;

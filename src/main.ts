@@ -1,4 +1,4 @@
-import { ColorPicker } from "./color-picker";
+import { ColorPicker } from "./color-picker/color-picker";
 
 async function main() {
     // retrieve dom elements

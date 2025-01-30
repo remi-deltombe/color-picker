@@ -1,4 +1,4 @@
-import { ColorPickerInteractionsOptions, Point } from "./color-picker-types";
+import { ColorPickerInteractionsOptions, Point } from "./types";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;

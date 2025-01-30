@@ -1,5 +1,5 @@
-import { ColorPickerOptions, ColorPickerRenderable, Point } from "./color-picker-types";
-import { rgbToHex } from "./utils";
+import { ColorPickerOptions, ColorPickerRenderable, Point } from "./types";
+import { rgbToHex } from "../utils";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
