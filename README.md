@@ -42,4 +42,4 @@ npm start
 4. Pixel Alignment (renderer.ts:108)
    - Alignment should be properly computed for better accuracy.
 5. Configurable Constants
-   - Some constants (e.g., border size, radius) could be passed as options to the color picker for greater flexibility.
+   - Some constants (e.g., border size, zoomfactor, radius) could be passed as options to the color picker for greater flexibility.
