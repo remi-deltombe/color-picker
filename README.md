@@ -1,21 +1,22 @@
 # color-picker
+Github: https://github.com/remi-deltombe/color-picker 
 
 ## Project structure
-- index.html: Main html file
-- src/: typescript sources folder
-   - main.ts: ts entry file
-   - utils.ts: generic ts utilities
-   - color-picker/: color picker sources folder
-      - color-picker.ts: Color picker main class
-      - renderer.ts: Handle canvas rendering for the color picker
-      - interactions.ts: Handle canvas event for the color picker
-      - types.ts: contains all type and interfaces used by color pickes elements
+- index.html: Main HTML file
+- src/: TypeScript source folder
+   - main.ts: Entry file for TypeScript
+   - utils.ts: General utilities for TypeScript
+   - color-picker/: Folder containing color picker logic
+      - color-picker.ts: Main class for the color picker
+      - renderer.ts: Handles canvas rendering for the color picker
+      - interactions.ts: Manages canvas events for the color picker
+      - types.ts: Defines types and interfaces used by color picker components
 
 ## External libraries
-Since this exercice is suppose to highlight my canvas skills, I decided to go for a libraryless solution.
-Believeing if I can show that I can provide a solution without library, I automatically proove I could do with.
+This project is designed to showcase my canvas skills, so I opted for a library-free solution. 
+The goal is to demonstrate that if I can implement a solution without external libraries, I can certainly do so with them as well.
 
-- Vite: help me to start quickly a ts project with refresh under 1 minute setup
+However, I used Vite to streamline the setup, allowing for quick project initialization and fast-refresh development within minutes.
 
 ## Installation 
 ```
@@ -29,16 +30,16 @@ npm i
 npm start
 ```
 
-## Point of improvement
-1. Refresh should be possible to ask to the ColorPicker.
-- As example, if an offscreencanvas is provided as input to the color picker, and been rendered meanwhile, color picker won't update the displayed canvas until mouse if moving on it. requestrenderingframe may be implemented instead for easier implementation, but less optimized solution
-
-2. Number should be replaced with constant, Proper constant naming should be used instead of flat number in code
-
-3. Error handling
-Error should be displayed to the user instead of just printing them in the console.
-
-4. pixelAlignment (renderer.ts:108) should be properly computed
-
-5. Some constants could be passed as option of the color picker
-as example: borderSize, radius,..
+## Areas for Improvement
+1. Canvas Refresh Handling
+   - Currently, if an offscreen canvas is used as input and is modified elsewhere, the color picker won’t update until the mouse moves over it.
+   - A request rendering frame mechanism could be implemented for easier integration, though it may be less optimized.
+2. Magic Numbers
+   - Hardcoded numbers should be replaced with constants.
+   - Meaningful constant names should be used instead of arbitrary numerical values.
+3. Error Handling
+   - Errors should be displayed to the user instead of only logging them in the console.
+4. Pixel Alignment (renderer.ts:108)
+   - Alignment should be properly computed for better accuracy.
+5. Configurable Constants
+   - Some constants (e.g., border size, radius) could be passed as options to the color picker for greater flexibility.
