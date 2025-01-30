@@ -1,7 +1,6 @@
 import { ColorPickerInteractions } from "./color-picker-interactions";
 import { ColorPickerRenderer } from "./color-picker-renderer";
-import { ColorPickerOptions, ColorPickerRenderable, Point, Vector } from "./color-picker-types";
-import { map, rgbToHex } from "./utils";
+import { ColorPickerOptions, ColorPickerRenderable } from "./color-picker-types";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
@@ -31,7 +30,6 @@ export class ColorPicker {
         })
     }
 
-
     /**
      * Open the color picker in order to allow the user to pick a color
      * @param renderable Reference material from which the color must be picked
@@ -46,7 +44,6 @@ export class ColorPicker {
             this.resolveClick = resolve;
         });
     }
-
 
     /**
      * Draw renderable as background with color picker if needed

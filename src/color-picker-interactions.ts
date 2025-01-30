@@ -1,6 +1,4 @@
-import { ColorPickerRenderer } from "./color-picker-renderer";
-import { ColorPickerInteractionsOptions, ColorPickerOptions, ColorPickerRenderable, Point, Vector } from "./color-picker-types";
-import { map, rgbToHex } from "./utils";
+import { ColorPickerInteractionsOptions, Point } from "./color-picker-types";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
@@ -9,8 +7,12 @@ const TAU = Math.PI * 2;
  * Main color picker interface class
  */
 export class ColorPickerInteractions {
-    private canvas: HTMLCanvasElement;
+    /**
+     * Current mouse position on the canvas
+     */
     public mousePosition?: Point;
+
+    private canvas: HTMLCanvasElement;
 
     /**
      * Color Picker constructor

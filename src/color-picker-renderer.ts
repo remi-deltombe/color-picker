@@ -1,5 +1,5 @@
-import { ColorPickerOptions, ColorPickerRenderable, Point, Vector } from "./color-picker-types";
-import { map, rgbToHex } from "./utils";
+import { ColorPickerOptions, ColorPickerRenderable, Point } from "./color-picker-types";
+import { rgbToHex } from "./utils";
 
 // Usefull rendering constants
 const TAU = Math.PI * 2;
@@ -9,7 +9,14 @@ const TAU = Math.PI * 2;
  */
 export class ColorPickerRenderer {
 
+    /**
+     * Current hovered color on the canvas
+     */
     public hoveredColor: string | null;
+
+    /**
+     * Input used to pick color from
+     */
     public renderable?: ColorPickerRenderable;
 
     private canvas: HTMLCanvasElement;
@@ -38,7 +45,6 @@ export class ColorPickerRenderer {
 
         this.mousePosition = mousePosition;
 
-        ////////////////////// Setup
         const { width, height } = this.renderable;
 
         // Set canvas dimension + clear it
@@ -48,8 +54,7 @@ export class ColorPickerRenderer {
         // prevent blur while zooming image
         this.context.imageSmoothingEnabled = false;
 
-        ////////////////////// Renderable
-        // render renderable
+        // render background
         this.context.drawImage(this.renderable, 0, 0);
 
         ////////////////////// Picker

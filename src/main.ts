@@ -1,7 +1,5 @@
 import { ColorPicker } from "./color-picker";
 
-
-
 async function main() {
     // retrieve dom elements
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
@@ -60,6 +58,5 @@ async function loadImage(url: string): Promise<HTMLImageElement> {
         }
     })
 }
-
 
 main();
